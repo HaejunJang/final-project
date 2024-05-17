@@ -1,0 +1,14 @@
+package com.example.finalproject.repository;
+
+import com.example.finalproject.domain.Prediction;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public interface UserPredictionRepository  extends JpaRepository<Prediction,Long> {
+    List<Prediction> findByAddressAndTime(String address, String time);
+
+    List<Prediction> findByTime(String timeString);
+}
