@@ -9,7 +9,7 @@ public class AdminTestController {
     @GetMapping("/image-url")
     @ResponseBody
     public String provideImageUrl() {
-        // 이미지 경로를 직접 반환
+        // 이미지 경로를 직접 반환, 이거는 없애야 해요;;
         return "/images/myimage.jpg";
     }
 }
