@@ -26,5 +26,4 @@ public class SafeThingType {
     @OneToMany(mappedBy = "safeThingType") // 안전시설과의 일대다 관계
     private List<SafeThing> safeThings; // SafeThing 엔티티와 연결
 
-    // Lombok을 사용하여 생성자, Getter, ToString 메소드 자동 생성
 }

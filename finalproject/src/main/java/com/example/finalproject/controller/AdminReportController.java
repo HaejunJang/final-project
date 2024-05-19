@@ -35,10 +35,10 @@ public class AdminReportController {
     public ResponseEntity<AdminReportDto> getReportByReportNum(@PathVariable("reportNum") Long reportNum) {
         AdminReportDto reportDTO = reportService.getReportByReportNum(reportNum);
         if (reportDTO != null) {
-            log.info("단인 신고 조회에 성공했습니다.");
+            log.info("단일 신고 조회에 성공했습니다.");
             return new ResponseEntity<>(reportDTO, HttpStatus.OK);
         } else {
-            log.info("단인 신고 조회에 실패했습니다.");
+            log.info("단일 신고 조회에 실패했습니다.");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }

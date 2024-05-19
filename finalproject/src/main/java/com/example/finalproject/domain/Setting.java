@@ -23,8 +23,5 @@ public class Setting {
     @Column(name = "placed")
     private String placed;  //장소
 
-//    @Column(name = "time")
-//    private String time;    //시간
-    // 생성자, 게터, 세터 등 생략
 }
 

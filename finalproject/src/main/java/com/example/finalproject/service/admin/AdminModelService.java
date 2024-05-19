@@ -140,9 +140,9 @@ public class AdminModelService {
 
         for(AiModel aiModel : aiModels) {
             //이미지 경로 생성
-            String imagePath1 = "/home/t24104/v0.9src/ai/models_link/validation_image" + aiModel.getModelNum() + "/MSE_graph.png";
-            String imagePath2 = "/home/t24104/v0.9src/ai/models_link/validation_image" + aiModel.getModelNum() + "/R-squared_graph.png";
-            String imagePath3 = "/home/t24104/v0.9src/ai/models_link/validation_image" + aiModel.getModelNum() + "/RMSE_graph.png";
+            String imagePath1 = "/ai/models_link/validation_image" + aiModel.getModelNum() + "/MSE_graph.png";
+            String imagePath2 = "/ai/models_link/validation_image" + aiModel.getModelNum() + "/R-squared_graph.png";
+            String imagePath3 = "/ai/models_link/validation_image" + aiModel.getModelNum() + "/RMSE_graph.png";
 
             //모델 정보와 이미지 경로를 dto에 담아 리스트에 추가
             AdminModelEvaluationDto evaluation = new AdminModelEvaluationDto();

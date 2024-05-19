@@ -104,9 +104,9 @@ public class AdminMainService {
             AiModel activeModel = activeModelOptional.get();
             int currentModelNum = activeModel.getModelNum();
             String currentModelName = activeModel.getModelName();
-            String imagePath1 = "/home/t24104/v0.9src/ai/models_link/validation_image" + currentModelNum + "/MSE_graph.png";
-            String imagePath2 = "/home/t24104/v0.9src/ai/models_link/validation_image" + currentModelNum + "/R-squared_graph.png";
-            String imagePath3 = "/home/t24104/v0.9src/ai/models_link/validation_image" + currentModelNum + "/RMSE_graph.png";
+            String imagePath1 = "/ai/models_link/validation_image" + currentModelNum + "/MSE_graph.png";
+            String imagePath2 = "/ai/models_link/validation_image" + currentModelNum + "/R-squared_graph.png";
+            String imagePath3 = "/ai/models_link/validation_image" + currentModelNum + "/RMSE_graph.png";
 
             // AdminMainDto 생성 및 설정
             AdminMainDto mainDto = new AdminMainDto();

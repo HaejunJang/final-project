@@ -8,7 +8,6 @@ import java.util.List;
 
 @Repository
 public interface UserPredictionRepository  extends JpaRepository<Prediction,Long> {
-    List<Prediction> findByAddressAndTime(String address, String time);
 
     List<Prediction> findByTime(String timeString);
 }

@@ -4,7 +4,6 @@ import com.example.finalproject.domain.Report;
 import com.example.finalproject.dto.AdminReportDto;
 import com.example.finalproject.repository.AdminReportRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

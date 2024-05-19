@@ -8,7 +8,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HttpBasicConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -16,6 +15,8 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.firewall.DefaultHttpFirewall;
+import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -43,8 +44,10 @@ public class SecurityConfig {
                                 //관리자 측
                                 .requestMatchers("/src/admins/login").permitAll()
                                 .requestMatchers("/src/admins/**").hasRole("ADMIN") //여기 url은 ADMIN 권한이 필요함
-
-                                .anyRequest().authenticated() // 그 외 모든 요청은 인증이 필요함
+                                
+                                .requestMatchers("/", "index.html").permitAll()
+                                .requestMatchers("/").permitAll()
+                                .anyRequest().permitAll() // 그 외 모든 요청은 인증을 허가해둠
                 )
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
                 //사용자 로그아웃
@@ -67,6 +70,14 @@ public class SecurityConfig {
                         .invalidateHttpSession(true));                      //HTTP 세션 무효화
 
         return http.build();
+    }
+
+    // 이부분 추가함
+    @Bean
+    public HttpFirewall httpFirewall() {
+        DefaultHttpFirewall firewall = new DefaultHttpFirewall();
+        firewall.setAllowUrlEncodedSlash(true);
+        return firewall;
     }
 
     @Bean

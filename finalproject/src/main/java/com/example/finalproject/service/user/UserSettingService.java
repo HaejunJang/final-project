@@ -109,11 +109,6 @@ public class UserSettingService {
         LocalDateTime endDateTime = today.atTime(endTime);
         log.info("조회할 시간 범위: {} ~ {}", startDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")), endDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
 
-        // 주소 결과가 없을 경우 처리
-        if (transformedAddress == null) {
-            log.info("해당 주소를 찾지 못했습니다.");
-            return null;
-        }
 
         // 주어진 시작 시간부터 종료 시간까지 10분 간격으로 시간 슬롯 리스트 생성
         List<LocalDateTime> timeSlots = Stream.iterate(startDateTime, dt -> dt.plusMinutes(10))

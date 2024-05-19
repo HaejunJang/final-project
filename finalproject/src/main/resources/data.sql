@@ -28,4 +28,4 @@
 --INSERT INTO report (reportNum, reportTime, details, placed, userNum) VALUES (3, '2024.11.12', '길찾기 오류나요', '도봉구', 6);
 
 --모델에 더미데이터 등록
-INSERT INTO ai_model(modelNum, batchSize, epoch, modelName, isActive) VALUES (2, 15, 25, '2024-05-13', false);
+--INSERT INTO ai_model(modelNum, batchSize, epoch, modelName, isActive) VALUES (2, 15, 25, '2024-05-13', false);
