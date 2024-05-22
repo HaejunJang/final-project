@@ -15,8 +15,9 @@ public class AdminFeedbackService {
     @Autowired
     private AdminFeedbackRepository adminFeedbackRepository;
 
+    //관리자 피드백 리스트 조회
     public List<AdminFeedbackDto> getAllFeedbacksWithUserName() {
-        List<Feedback> feedbacks = adminFeedbackRepository.findAll();
+        List<Feedback> feedbacks = adminFeedbackRepository.findAllOrderByFeedNumDesc();
         return feedbacks.stream()
                 .map(this::converToDto)
                 .collect(Collectors.toList());

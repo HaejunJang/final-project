@@ -18,6 +18,7 @@ public class AdminFeedbackController {
     @Autowired
     private AdminFeedbackService adminFeedbackService;
 
+    //관리자 피드백 리스트 조회
     @GetMapping("/src/admins/feedbacks")
     public ResponseEntity<List<AdminFeedbackDto>> getAllFeedbacks() {
         List<AdminFeedbackDto> feedbackDtos = adminFeedbackService.getAllFeedbacksWithUserName();

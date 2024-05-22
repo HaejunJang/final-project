@@ -1,16 +1,13 @@
 package com.example.finalproject.controller;
 
-import com.example.finalproject.domain.Report;
 import com.example.finalproject.dto.AdminReportDto;
 import com.example.finalproject.service.admin.AdminReportService;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;

@@ -15,13 +15,15 @@ public class AdminReportService {
 
     private final AdminReportRepository reportRepository;
 
+    //관리자 신고 리스트 조회 신고번호가큰것부터 내림차순 조회
     public List<AdminReportDto> getAllReportsWithUserNames() {
-        List<Report> reports = reportRepository.findAll();
+        List<Report> reports = reportRepository.findAllOrderByReportNumDesc();
         return reports.stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
 
+    //관리자 신고 리스트 상세조회
     public AdminReportDto getReportByReportNum(Long reportNum) {
         Report report = reportRepository.findById(reportNum).orElse(null);
         if (report != null) {

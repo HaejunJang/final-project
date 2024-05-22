@@ -46,8 +46,9 @@ public class AdminNoticeService {
         adminNoticeRepository.save(notice);
     }
 
+    //관리자 공지사항 리스트 조회
     public List<AdminNoticeResponseDto> getAllData() {
-        List<Notice> notices = adminNoticeRepository.findAll();
+        List<Notice> notices = adminNoticeRepository.findAllOrderByPostNumDesc();
 
         return notices.stream()
                 .map(this::mapToAdminNoticeResponseDto)
