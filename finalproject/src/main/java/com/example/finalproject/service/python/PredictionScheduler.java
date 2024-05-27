@@ -1,6 +1,8 @@
 package com.example.finalproject.service.python;
 
+import com.example.finalproject.domain.AiModel;
 import com.example.finalproject.domain.Prediction;
+import com.example.finalproject.repository.AdminModelRepository;
 import com.example.finalproject.repository.UserPredictionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -11,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 @Component
 public class PredictionScheduler {
@@ -19,6 +22,9 @@ public class PredictionScheduler {
 
     @Autowired
     private UserPredictionRepository predictionRepository;
+
+    @Autowired
+    private AdminModelRepository adminModelRepository;
 
     // 최초 실행일을 설정합니다.
     private final LocalDateTime currentDateTime = LocalDateTime.of(2024, 6, 18, 0, 0);
@@ -59,8 +65,19 @@ public class PredictionScheduler {
         // 현재 시간을 문자열로 변환합니다. +1일을 해줍니다.
         String inputTimeStr = currentTime.plusDays(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH:mm:ss"));
         try {
+            // 활성화된 모델 정보 가져오기
+            Optional<AiModel> activeModelOpt = adminModelRepository.findByIsActiveTrue();
+            if (activeModelOpt.isEmpty()) {
+                // 활성화된 모델이 없으면 로그를 남기고 종료합니다.
+                System.err.println("활성화된 모델을 찾을 수 없습니다.");
+                return;
+            }
+
+            AiModel activeModel = activeModelOpt.get();
+            String modelNum = String.valueOf(activeModel.getModelNum());
+
             // 파이썬 스크립트를 실행하는 프로세스를 빌드합니다.
-            ProcessBuilder processBuilder = new ProcessBuilder("python", "/home/t24104/v0.9src/ai/scatter.py", inputTimeStr, "model", "scaler");
+            ProcessBuilder processBuilder = new ProcessBuilder("python", "/home/t24104/v0.9src/ai/scatter.py", inputTimeStr, "model" + modelNum, "scaler" + modelNum);
             Process process = processBuilder.start();
 
             // 파이썬 스크립트의 출력을 읽어옵니다.

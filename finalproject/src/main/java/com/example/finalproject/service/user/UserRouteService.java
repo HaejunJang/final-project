@@ -1,8 +1,11 @@
 package com.example.finalproject.service.user;
 
+import com.example.finalproject.domain.AiModel;
 import com.example.finalproject.dto.UserRouteResponseDto;
 import com.example.finalproject.dto.UserRouteRequestDto;
+import com.example.finalproject.repository.AdminModelRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -10,10 +13,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 @Service
 @Slf4j
 public class UserRouteService {
+
+    @Autowired
+    private AdminModelRepository adminModelRepository;
 
     public UserRouteResponseDto findRoute(UserRouteRequestDto userRouteRequestDto) {
         try {
@@ -21,8 +28,9 @@ public class UserRouteService {
             String startRequest = userRouteRequestDto.getStart();
             String destinationRequest = userRouteRequestDto.getDestination();
 
-            log.info("들어온 출발지: "+startRequest);
-            log.info("들어온 도착지:"+destinationRequest);
+            log.info("들어온 출발지: " + startRequest);
+            log.info("들어온 도착지: " + destinationRequest);
+
 
             //영어 주소일때 사용
             // String start = userRouteRequestDto.getStart().replaceAll(",", "").replaceAll(" ", ",");
@@ -30,8 +38,6 @@ public class UserRouteService {
 
             // log.info("출발지 주소 확인: " + start);
             // log.info("도착지 주소 확인: " + destination);
-
-            // 서버에서 현재 시간 가져오기
             // 서버에서 현재 시간 가져오기
             LocalDateTime now = LocalDateTime.now();
             int minute = now.getMinute();
@@ -40,6 +46,16 @@ public class UserRouteService {
             String currentTime = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH:mm:ss"));
             log.info("현재 시간 확인: " + currentTime);
 
+            // 활성화된 모델 정보 가져오기
+            Optional<AiModel> activeModelOpt = adminModelRepository.findByIsActiveTrue();
+            if (activeModelOpt.isEmpty()) {
+                log.error("활성화된 모델을 찾을 수 없습니다.");
+                return null;
+            }
+
+            //활성화 되어있는 모델의 번호 가져오기
+            AiModel activeModel = activeModelOpt.get();
+            String modelNum = String.valueOf(activeModel.getModelNum());
 
             // 파이썬 스크립트를 실행하기 위한 ProcessBuilder 생성
             ProcessBuilder pb = new ProcessBuilder(
@@ -48,8 +64,8 @@ public class UserRouteService {
                     currentTime,
                     "\"" + startRequest + "\"",
                     "\"" + destinationRequest + "\"",
-                    "model",
-                    "scaler"
+                    "model" + modelNum,  // 모델 번호를 반영하여 변경
+                    "scaler" + modelNum  // 모델 번호를 반영하여 변경
             );
 
             log.info("Executing command: " + String.join(" ", pb.command()));
@@ -72,7 +88,6 @@ public class UserRouteService {
             // 파이썬 스크립트의 출력을 한 줄씩 읽어서 처리
             String line;
             while ((line = reader.readLine()) != null) {
-                log.info("11111111111t: " + line);
                 // safe route로 시작하는 줄이면 안전 경로 정보를 추출하여 저장
                 if (line.startsWith("Safe route:")) {
                     int startIndex = line.indexOf("Safe route:") + "Safe route:".length() + 1;

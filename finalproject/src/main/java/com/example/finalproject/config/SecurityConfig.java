@@ -39,6 +39,7 @@ public class SecurityConfig {
                                 .requestMatchers("/src/users/login").permitAll() // "/members/login"에 대한 접근 허용
                                 .requestMatchers("/src/users/signup").permitAll()    //회원가입도 모두한테 접근 허용
                                 .requestMatchers("/src/users/idCheck/**").permitAll()    //중복id검사 모두한테 접근 허용
+                                .requestMatchers("/src/users/download/**").permitAll()    //어플 다운로드 모두한테 접근 허용
                                 .requestMatchers("/src/users/**").hasRole("USER") // "/members/test"에 대한 접근은 USER 역할이 있어야 함
 
                                 //관리자 측

@@ -1,6 +1,5 @@
 package com.example.finalproject.controller;
 
-import com.example.finalproject.domain.Report;
 import com.example.finalproject.dto.AdminLoginDto;
 import com.example.finalproject.dto.TokenInfo;
 import com.example.finalproject.service.admin.AdminService;
